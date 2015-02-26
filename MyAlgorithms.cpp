@@ -183,85 +183,21 @@ namespace introrob {
 
 
 
-        /* EJEMPLO SENCILLO DE UN BUMP AND GO */
-
-        /* TOMA DE SENSORES */
-        //Aqui tomamos el valor de los sensores para alojarlo en nuestras variables locales
-        laser = getLaserData(); // Get the laser info
-        //printf("laser[45]: %d\n", laser->distanceData[45]);
-
-        v = this->getMotorV();
-        w = this->getMotorW();
-        l = this->getMotorL();
-        //        printf("v: %f , w: %f , l: %f\n", v, w, l);
-
-        //dest = this->getDestino();
-        //printf("destPoint = [%f, %f]\n", dest.x, dest.y);
-
-        //encoders = this->getEncodersData();
-        //printf("myPosition = [%f, %f]\n", encoders->robotx, encoders->roboty);
-        /* FIN TOMA DE SENSORES */
 
 
-        /*
-        switch(accion){
-
-        case 0:		// Robot hacia adelante
-
-        if(( laser->distanceData[45] < 1000.0) or ( laser->distanceData[90] < 1000.0) or ( laser->distanceData[135] < 1000.0)){
-        v=0.;
-        //if ((x_ant == myPoint.x) and (y_ant == myPoint.y) and (z_ant == myPoint.z)){
-        accion=1;
-        printf("### Activado hacia Atras\n");
-        //}
-        }
-        else
-        v=50;
-        break;
-
-        case 1:		// Robot hacia atras
-        if ((laser->distanceData[45] < 1100) or (laser->distanceData[90] < 1100) or (laser->distanceData[135] < 1100)){
-        v=-50.;
-        printf("### Llendo hacia atras\n");
-        }
-        else{
-        v=0.;
-        accion=2;
-        }
-        break;
-
-
-        case 2:		// Robot girando.
-        if((laser->distanceData[45] < 1300) or (laser->distanceData[90] < 1300) or (laser->distanceData[135] < 1300)){
-        if(sentido%2==0){
-        w=50.;
-        }
-        else{
-        w=50.*(-1);
-        }
-        printf("### Girando: %d \n", sentido);
-        }
-        else{
-        w=0.;
-        accion=0;
-        sentido = (1 + rand() % 40);
-        }
-
-        break;
-        }
-         */
-        /*Comandar robot*/
+        //// ***Comandar robot*** >>>
         //Aqui enviamos los datos al robot
-        //w = 0.;
-        this->setMotorW(3);
-        this->setMotorV(0);
+        /// Movimiento
+        // Velocidad angular
+        this->setMotorW(w);
+        // Velocidad lineal
+        this->setMotorV(v);
+        // Velocidad horizontal (No se aplica para el pioneer)
+        //this->setMotorL(l);
 
-        this->setMotorL(0);
-
-        //pan=0;
-        //tilt=0;
-        //this->setPTEncoders(pan,tilt,1); //Con el segundo parametro elegimos la camara a comandar (1 o 2)
-
+        /// cuello
+        //this->setPTEncoders(pan,tilt, 1); //Con el segundo parametro elegimos la camara a comandar (1 o 2)
+        //// <<<
 
 
     }
