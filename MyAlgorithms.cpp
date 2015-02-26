@@ -156,23 +156,20 @@ namespace introrob {
         /*Manipulando imágenes de las cámaras*/
         /*En el siguiente ejemplo se filtra el color rojo de la cámara izquierda para repintar esos píxeles a negro. Para visualizar el resultado
         debemos desplegar la ventana "WINDOW DEBUGGING" y pulsar PLAY para hacer correr nuestro código*/
-        imageCameras2openCV(); //Esta función es necesario llamarla ANTES de trabajar con las imágenes de las cámaras.
-        //IplImage src = *this->imageCameraLeft; //Imagen de la cámara izquierda
+        imageCameras2openCV(); //Esta función es necesario llamarla ANTES de trabajar con las imágenes de las cámaras.       
+        cv::Mat_<cv::Vec3b> red_filter = imageCameraLeft;
+        for (i = 0; i < red_filter.rows; i++) {
+            for (j = 0; j < red_filter.cols; j++) {
+                if ( (red_filter(i,j)[0] > 120) && (red_filter(i,j)[1] < 70) && (red_filter(i,j)[2] < 70) ){
+                    red_filter(i,j) = cv::Vec3b::all(255);
+                }else{
+                    //red_filter(i,j) = cv::Vec3b::all(0);
+                }
+            }
+        }
 
-//        for (i = 0; i < src.width; i++) {
-//            for (j = 0; j < src.height; j++) {
-//                if (((int) (unsigned char) src.imageData[(j * src.width + i) * src.nChannels] > 120) &&
-//                        ((int) (unsigned char) src.imageData[(j * src.width + i) * src.nChannels + 1] < 70) &&
-//                        ((int) (unsigned char) src.imageData[(j * src.width + i) * src.nChannels + 2] < 70)) {
-//                    cont++;
-//                    src.imageData[(j * src.width + i) * src.nChannels] = 255; //R
-//                    src.imageData[(j * src.width + i) * src.nChannels + 1] = 255; //G
-//                    src.imageData[(j * src.width + i) * src.nChannels + 2] = 0; //B
-//                }
-//            }
-//        }
+        // draw a line
         cv::line(imageCameraLeft, cv::Point2d(0,0), cv::Point2d(imageCameraLeft.cols, imageCameraLeft.rows), cv::Scalar::all(255), 3);
-
 
 
         /* A continuacion se muestran las coordenadas de los puntos obtenidos tras hacer click en alguna de las camaras */
