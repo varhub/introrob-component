@@ -133,8 +133,8 @@ namespace introrob {
 
     private:
         //Variables used in NavigationAlgorithm
-        IplImage* imageCamera1;
-        IplImage* imageCamera2;
+//        IplImage* imageCamera1;
+//        IplImage* imageCamera2;
 
         struct XYZ {
             double x;
