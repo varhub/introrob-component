@@ -128,16 +128,31 @@ namespace introrob {
 
     void Api::imageCameras2openCV() {
         pthread_mutex_lock(&this->controlGui);
+
+#ifndef USE_MAT
         cvReleaseImage(&imageCameraRight);
         this->imageCameraRight = cvCreateImage(cvSize(imageData2->description->width, imageData2->description->height), 8, 3);
-
         memcpy((unsigned char *) imageCameraRight->imageData, &(imageData2->pixelData[0]), imageCameraRight->width * imageCameraRight->height * 3);
 
         cvReleaseImage(&imageCameraLeft);
         this->imageCameraLeft = cvCreateImage(cvSize(imageData1->description->width, imageData1->description->height), 8, 3);
-
         memcpy((unsigned char *) imageCameraLeft->imageData, &(imageData1->pixelData[0]), imageCameraLeft->width * imageCameraLeft->height * 3);
+#else
+        int Rwidth = imageData2->description->width, Rheight = imageData2->description->height;
+        int Lwidth = imageData1->description->width, Lheight = imageData1->description->height;
 
+        // check allocation
+        if (this->imageCameraRight.rows != Rwidth || this->imageCameraRight.cols!= Rheight)
+            this->imageCameraRight.create(Rheight, Rwidth, CV_8UC3);
+
+        if (this->imageCameraLeft.rows != Rwidth || this->imageCameraLeft.cols!= Rheight)
+            this->imageCameraLeft.create(Rheight, Rwidth, CV_8UC3);
+
+        // hard copy (std::vector --> cv::Mat)
+        // only for 3-channel/8-bits
+        memcpy(imageCameraRight.data, imageData2->pixelData.data(), Rwidth * Rheight * 3 * sizeof(uchar));
+        memcpy(imageCameraLeft.data, imageData1->pixelData.data(), Lwidth * Lheight * 3 * sizeof(uchar));
+#endif
         /*
         colorspaces::Image::FormatPtr fmt1 = colorspaces::Image::Format::searchFormat(imageData1->description->format);
         if (!fmt1)
@@ -285,9 +300,11 @@ namespace introrob {
             }
         }
 */
-
+#ifndef USE_MAT
         cvShowImage("DebuggingWin", this->imageCameraLeft);
-
+#else
+        cv::imshow("DebuggingWin", this->imageCameraLeft);
+#endif
 
 
     }

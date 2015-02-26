@@ -46,7 +46,7 @@
 
 
 #define MAX_LINES 200
-
+#define USE_MAT
 
 
 namespace introrob {
@@ -123,8 +123,13 @@ namespace introrob {
         Glib::RefPtr<Gdk::Pixbuf> imgBuff2, imgBuff;
         bool imagesReady;
         bool guiReady;
+#ifndef USE_MAT
         IplImage* imageCameraLeft;
         IplImage* imageCameraRight;
+#else
+        cv::Mat imageCameraLeft;
+        cv::Mat imageCameraRight;
+#endif
 
     private:
         //Variables used in NavigationAlgorithm
